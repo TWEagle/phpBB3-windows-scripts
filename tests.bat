@@ -41,15 +41,15 @@ set ORIGINAL_PATH=%PATH%
 
 :help
 echo.
-echo ==========================
-echo =   phpBB Unit Testing   =
-echo ==========================
+echo ===================================================================
+echo =   phpBB Unit Testing                                            =
+echo ===================================================================
 echo.
-echo End script:            end
-echo Run slow tests:        slow
-echo Run functional tests:  functional
-echo Run file tests:        LinkToFile
-echo Run tests normal:      all
+echo     [file]           Insert file to run tests of one file only
+echo     functional       Run functional test group
+echo     slow             Run slow test group
+echo     all              Run all tests
+echo     end/exit/stop    End script
 echo.
 
 :rerun_tests

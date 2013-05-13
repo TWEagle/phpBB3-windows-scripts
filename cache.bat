@@ -30,7 +30,7 @@ echo     data             Purge all data files
 echo     sql              Purge all SQL files
 echo     tpl              Purge all template files
 echo     end/exit/stop    End script
-echo *                Everything else will purge all files
+echo     *                Everything else will purge all files
 echo.
 
 :rerun

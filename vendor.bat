@@ -45,10 +45,10 @@ echo ===================================================================
 echo =   phpBB Vendor Update                                           =
 echo ===================================================================
 echo.
-echo dev              Install vendors for development
-echo install          Install vendors for productive
-echo update           Update all vendors
-echo end/exit/stop    End script
+echo     dev              Install vendors for development
+echo     install          Install vendors for productive
+echo     update           Update all vendors
+echo     end/exit/stop    End script
 echo.
 
 :rerun
