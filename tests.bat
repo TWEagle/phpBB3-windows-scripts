@@ -76,7 +76,7 @@ echo ==============
 echo File: %phpbb_running_unit_tests%
 echo.
 call "%PHPUNIT_PATH%" %phpbb_running_unit_tests%
-goto test_end
+goto tests_finished
 
 :all_tests
 echo.
@@ -84,7 +84,7 @@ echo Running tests:
 echo ==============
 echo.
 call "%PHPUNIT_PATH%"
-goto test_end
+goto tests_finished
 
 :slow_tests
 echo.
@@ -92,7 +92,7 @@ echo Running slow tests:
 echo ===================
 echo.
 call "%PHPUNIT_PATH%" --group slow
-goto test_end
+goto tests_finished
 
 :functional_file_tests
 echo.
@@ -101,7 +101,7 @@ echo =========================
 echo File: %phpbb_running_unit_tests%
 echo.
 call "%PHPUNIT_PATH%" -c phpunit.xml.functional %phpbb_running_unit_tests%
-goto test_end
+goto tests_finished
 
 :functional_tests
 echo.
@@ -109,9 +109,9 @@ echo Running functional tests:
 echo =========================
 echo.
 call "%PHPUNIT_PATH%" -c phpunit.xml.functional
-goto test_end
+goto tests_finished
 
-:test_end
+:tests_finished
 echo.
 echo ==========================
 echo Testing finished!
