@@ -2,18 +2,25 @@
 
 set FORK_ROOT_PATH=%CD%\
 
+:: Try to find viewtopic.php
 if exist %FORK_ROOT_PATH%phpBB\viewtopic.php goto configure
-if exist %FORK_ROOT_PATH%viewtopic.php goto configure_root
+set ROOT_TESTS=0
 
+:root_level_up
+set FORK_ROOT_PATH=%FORK_ROOT_PATH%..\
+set ROOT_TESTS=%ROOT_TESTS%+1
+if %ROOT_TESTS% == "25" goto root_level_end
+if not exist %FORK_ROOT_PATH%phpBB\viewtopic.php goto root_level_up
+
+if exist %FORK_ROOT_PATH%phpBB\viewtopic.php goto configure
+
+:root_level_end
 SET /P phpbb_purge_cache=Please move the .bat to the root of your phpBB installation! 
 goto end
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Configure some paths
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-:configure_root
-SET FORK_ROOT_PATH=%FORK_ROOT_PATH%..\
-
 :configure
 call %FORK_ROOT_PATH:~0,2%
 cd %FORK_ROOT_PATH%
@@ -75,9 +82,15 @@ for %%A in (phpBB\cache\data_*.php.lock) do (
 	echo %%A
 	del %%A
 )
-if exists phpBB\cache\container_dotslash.php echo phpBB\cache\container_dotslash.php
+
+:purge_container_dotslash
+if not exist %FORK_ROOT_PATH%phpBB\cache\container_dotslash.php goto purge_url_matcher
+echo phpBB\cache\container_dotslash.php
 del phpBB\cache\container_dotslash.php
-if exists phpBB\cache\url_matcher.php echo phpBB\cache\url_matcher.php
+
+:purge_url_matcher
+if not exist %FORK_ROOT_PATH%phpBB\cache\url_matcher.php goto end_purge
+echo phpBB\cache\url_matcher.php
 del phpBB\cache\url_matcher.php
 
 goto end_purge
