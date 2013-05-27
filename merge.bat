@@ -66,6 +66,7 @@ echo.
 :merge_into
 echo ===========================================================================
 echo Merge branch into branch [%git_upstream_branch%]:
+SET git_merge_into_branch=
 SET /P git_merge_into_branch=$ 
 echo.
 
@@ -90,6 +91,7 @@ goto help
 :merge_develop
 echo ===========================================================================
 echo  Merging "%git_author_repository%/%git_author_branch%" into "develop" [y]:
+SET git_confirm=
 SET /P git_confirm=$ 
 
 if not "%git_confirm%" == "y" goto help
@@ -124,6 +126,7 @@ echo.
 :merge_develop2
 echo ===========================================================================
 echo Changes pushed to "%git_origin_repository%/develop", please check the changes, before merging into "%git_upstream_repository%/develop" [y]:
+SET git_confirm=
 SET /P git_confirm=$ 
 
 if not "%git_confirm%" == "y" goto merge_develop2
@@ -144,6 +147,7 @@ goto help
 :merge_develop_olympus
 echo ===========================================================================
 echo Merging "%git_author_repository%/%git_author_branch%" into "develop-olympus" [y]:
+SET git_confirm=
 SET /P git_confirm=$ 
 echo.
 
@@ -202,6 +206,7 @@ echo.
 :merge_develop_olympus2
 echo ===========================================================================
 echo Changes pushed to "%git_origin_repository%/develop-olympus", please check the changes, before merging into "%git_upstream_repository%/develop-olympus" [y]:
+SET git_confirm=
 SET /P git_confirm=$ 
 
 if not "%git_confirm%" == "y" goto merge_develop_olympus2
