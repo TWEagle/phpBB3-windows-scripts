@@ -48,8 +48,12 @@ echo.
 echo ===========================================================================
 echo Merge branch from following remote repository (author):
 SET /P git_author_repository=$ 
+echo.
 
 :: Fetch authors repository, so we have the newest commits
+echo ===========================================================================
+echo Fetching branches from "%git_author_repository%"
+echo.
 call "%GIT_EXE%" fetch %git_author_repository%
 echo.
 
@@ -63,6 +67,7 @@ echo.
 echo ===========================================================================
 echo Merge branch into branch [%git_upstream_branch%]:
 SET /P git_merge_into_branch=$ 
+echo.
 
 if "%git_merge_into_branch%" == "" set git_merge_into_branch=%git_upstream_branch%
 
@@ -74,7 +79,6 @@ if "%git_merge_into_branch%" == "a" goto merge_develop_ascraeus
 if "%git_merge_into_branch%" == "develop-olympus" goto merge_develop_olympus
 if "%git_merge_into_branch%" == "olympus" goto merge_develop_olympus
 if "%git_merge_into_branch%" == "o" goto merge_develop_olympus
-echo.
 
 echo ===========================================================================
 echo Error: Can only merge into develop/develop-ascraeus/develop-olympus!
@@ -91,10 +95,29 @@ SET /P git_confirm=$
 if not "%git_confirm%" == "y" goto help
 
 :: Push changes to origin
+echo ===========================================================================
+echo Updating your branches
+echo.
 call "%GIT_EXE%" remote update %git_upstream_repository%
+echo.
+echo ===========================================================================
+echo Checking out branch "develop"
+echo.
 call "%GIT_EXE%" checkout develop
+echo.
+echo ===========================================================================
+echo Reseting head for "develop"
+echo.
 call "%GIT_EXE%" reset --hard %git_upstream_repository%/develop
+echo.
+echo ===========================================================================
+echo Merging "%git_author_repository%/%git_author_branch%" into "develop"
+echo.
 call "%GIT_EXE%" merge --no-ff %git_author_repository%/%git_author_branch%
+echo.
+echo ===========================================================================
+echo Pushing to "%git_origin_repository%/develop"
+echo.
 call "%GIT_EXE%" push %git_origin_repository% develop
 echo.
 
@@ -106,6 +129,9 @@ SET /P git_confirm=$
 if not "%git_confirm%" == "y" goto merge_develop2
 
 :: Push changes to upstream
+echo ===========================================================================
+echo Pushing to "%git_upstream_repository%/develop"
+echo.
 call "%GIT_EXE%" push %git_upstream_repository% develop
 echo.
 
@@ -119,20 +145,57 @@ goto help
 echo ===========================================================================
 echo Merging "%git_author_repository%/%git_author_branch%" into "develop-olympus" [y]:
 SET /P git_confirm=$ 
+echo.
 
 if not "%git_confirm%" == "y" goto help
 
 :: Push changes to origin
+echo ===========================================================================
+echo Updating your branches
+echo.
 call "%GIT_EXE%" remote update %git_upstream_repository%
+echo.
+echo ===========================================================================
+echo Checking out branch "develop-olympus"
+echo.
 call "%GIT_EXE%" checkout develop-olympus
+echo.
+echo ===========================================================================
+echo Reseting head for "develop-olympus"
+echo.
 call "%GIT_EXE%" reset --hard %git_upstream_repository%/develop-olympus
+echo.
+echo ===========================================================================
+echo Merging "%git_author_repository%/%git_author_branch%" into "develop-olympus"
+echo.
 call "%GIT_EXE%" merge --no-ff %git_author_repository%/%git_author_branch%
+echo.
+echo ===========================================================================
+echo Pushing to "%git_origin_repository%/develop-olympus"
+echo.
 call "%GIT_EXE%" push %git_origin_repository% develop-olympus
+echo.
 
 :: Merge Olympus into Develop
+echo.
+echo ===========================================================================
+echo Checking out branch "develop"
+echo.
 call "%GIT_EXE%" checkout develop
+echo.
+echo ===========================================================================
+echo Reseting head for "develop"
+echo.
 call "%GIT_EXE%" reset --hard %git_upstream_repository%/develop
+echo.
+echo ===========================================================================
+echo Merging "develop-olympus" into "develop"
+echo.
 call "%GIT_EXE%" merge --no-ff develop-olympus
+echo.
+echo ===========================================================================
+echo Pushing to "%git_origin_repository%/develop"
+echo.
 call "%GIT_EXE%" push %git_origin_repository% develop
 echo.
 
@@ -144,7 +207,14 @@ SET /P git_confirm=$
 if not "%git_confirm%" == "y" goto merge_develop_olympus2
 
 :: Push changes to upstream
+echo ===========================================================================
+echo Pushing to "%git_upstream_repository%/develop-olympus"
+echo.
 call "%GIT_EXE%" push %git_upstream_repository% develop-olympus
+echo.
+echo ===========================================================================
+echo Pushing to "%git_upstream_repository%/develop"
+echo.
 call "%GIT_EXE%" push %git_upstream_repository% develop
 echo.
 
