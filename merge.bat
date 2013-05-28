@@ -50,17 +50,29 @@ echo Merge branch from following remote repository (author):
 SET /P git_author_repository=$ 
 echo.
 
-:: Fetch authors repository, so we have the newest commits
 echo ===========================================================================
 echo Fetching branches from "%git_author_repository%"
 echo.
 call "%GIT_EXE%" fetch %git_author_repository%
+if %ERRORLEVEL% GEQ 1 echo.
+if %ERRORLEVEL% GEQ 1 echo Could not find author remote!
+if %ERRORLEVEL% GEQ 1 echo.
+if %ERRORLEVEL% GEQ 1 goto fetch_author
 echo.
 
-:fetch_author
+:fetch_author_branch
 echo ===========================================================================
 echo Merge following branch from %git_author_repository%:
 SET /P git_author_branch=$ 
+echo.
+
+echo ===========================================================================
+echo HEAD of "%git_author_branch%" is
+echo.
+call "%GIT_EXE%" ls-remote --exit-code %git_author_repository% %git_author_branch%
+if %ERRORLEVEL% GEQ 1 echo Could not find remote branch!
+if %ERRORLEVEL% GEQ 1 echo.
+if %ERRORLEVEL% GEQ 1 goto fetch_author_branch
 echo.
 
 :merge_into
