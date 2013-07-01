@@ -108,7 +108,7 @@ SET /P git_confirm=$
 
 if not "%git_confirm%" == "y" goto help
 
-:: Push changes to origin
+:: Merge branch to local
 echo ===========================================================================
 echo Updating your branches
 echo.
@@ -129,13 +129,23 @@ echo Merging "%git_author_repository%/%git_author_branch%" into "develop"
 echo.
 call "%GIT_EXE%" merge --no-ff %git_author_repository%/%git_author_branch%
 echo.
+
+:merge_develop2
+echo ===========================================================================
+echo Please check the changes, before pushing changes to "%git_origin_repository%/develop [y]:
+SET git_confirm=
+SET /P git_confirm=$ 
+
+if not "%git_confirm%" == "y" goto help
+
+:: Push changes to origin
 echo ===========================================================================
 echo Pushing to "%git_origin_repository%/develop"
 echo.
 call "%GIT_EXE%" push %git_origin_repository% develop
 echo.
 
-:merge_develop2
+:merge_develop3
 echo ===========================================================================
 echo Changes pushed to "%git_origin_repository%/develop", please check the changes, before merging into "%git_upstream_repository%/develop" [y]:
 SET git_confirm=
