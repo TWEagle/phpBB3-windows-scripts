@@ -62,9 +62,11 @@ echo.
 
 :fetch_author_branch
 echo ===========================================================================
-echo Merge following branch from %git_author_repository%:
+echo Merge following branch from %git_author_repository% ("abort" to cancel):
 SET /P git_author_branch=$ 
 echo.
+
+if not "%git_author_branch%" == "abort" goto help
 
 echo ===========================================================================
 echo HEAD of "%git_author_branch%" is
