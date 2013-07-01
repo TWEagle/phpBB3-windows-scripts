@@ -177,7 +177,7 @@ echo.
 
 if not "%git_confirm%" == "y" goto help
 
-:: Push changes to origin
+:: Merge changes to Olympus
 echo ===========================================================================
 echo Updating your branches
 echo.
@@ -198,11 +198,14 @@ echo Merging "%git_author_repository%/%git_author_branch%" into "develop-olympus
 echo.
 call "%GIT_EXE%" merge --no-ff %git_author_repository%/%git_author_branch%
 echo.
+
+:merge_develop_olympus2
 echo ===========================================================================
-echo Pushing to "%git_origin_repository%/develop-olympus"
-echo.
-call "%GIT_EXE%" push %git_origin_repository% develop-olympus
-echo.
+echo Merging olympus into develop now [y]:
+SET git_confirm=
+SET /P git_confirm=$ 
+
+if not "%git_confirm%" == "y" goto help
 
 :: Merge Olympus into Develop
 echo.
@@ -221,19 +224,43 @@ echo Merging "develop-olympus" into "develop"
 echo.
 call "%GIT_EXE%" merge --no-ff develop-olympus
 echo.
+
+:: Checkout Olympus again for testing
+echo.
+echo ===========================================================================
+echo Checking out branch "develop-olympus"
+echo.
+call "%GIT_EXE%" checkout develop-olympus
+echo.
+
+:merge_develop_olympus3
+echo ===========================================================================
+echo Please check the changes, before pushing changes to "%git_origin_repository%/develop-olympus" [y]:
+SET git_confirm=
+SET /P git_confirm=$ 
+
+if not "%git_confirm%" == "y" goto help
+
+:: Push changes to origin
+echo ===========================================================================
+echo Pushing to "%git_origin_repository%/develop-olympus"
+echo.
+call "%GIT_EXE%" push %git_origin_repository% develop-olympus
+echo.
+
 echo ===========================================================================
 echo Pushing to "%git_origin_repository%/develop"
 echo.
 call "%GIT_EXE%" push %git_origin_repository% develop
 echo.
 
-:merge_develop_olympus2
+:merge_develop_olympus4
 echo ===========================================================================
 echo Changes pushed to "%git_origin_repository%/develop-olympus", please check the changes, before merging into "%git_upstream_repository%/develop-olympus" [y]:
 SET git_confirm=
 SET /P git_confirm=$ 
 
-if not "%git_confirm%" == "y" goto merge_develop_olympus2
+if not "%git_confirm%" == "y" goto merge_develop_olympus3
 
 :: Push changes to upstream
 echo ===========================================================================
